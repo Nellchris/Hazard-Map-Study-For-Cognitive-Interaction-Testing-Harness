@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Flood hazard map study</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="css/study.css">
+</head>
+<body>
+
+<!-- ============ 1. pointer check (shown first if no mouse) ============ -->
+<section id="screen-pointer" class="screen prose" hidden>
+  <h1>This study needs a mouse</h1>
+  <p>The task measures how you move a pointer across a map, so it only works on a
+     computer with a mouse or trackpad. Phones and tablets can't take part.</p>
+  <p>If you're on a laptop with a touchscreen, try again with your trackpad or mouse
+     active.</p>
+</section>
+
+<!-- ============ 2. consent ============ -->
+<section id="screen-consent" class="screen prose" hidden>
+  <h1>Comparing two flood hazard map layouts</h1>
+
+  <p>You'll see a map of the Lisbon waterfront with several flood zones outlined.
+     For each task, you read the details of the outlined zones and pick the one the
+     question asks for. There are twelve short tasks, split into two halves that use
+     different map layouts. It takes about ten minutes.</p>
+
+  <h2>What gets recorded</h2>
+  <ul>
+    <li>Where your pointer moves on the map, and where you click</li>
+    <li>Zooming and panning</li>
+    <li>How long each task takes, and which zone you chose</li>
+  </ul>
+  <p>No keystrokes, no names, no email addresses, no location. Your data is labelled
+     with a random session code only, and is stored on a Supabase database hosted in
+     the EU.</p>
+
+  <h2>Taking part</h2>
+  <p>Participation is voluntary. You can close the tab at any point and stop, and
+     partial data from an unfinished session is excluded from the analysis.</p>
+  <p>Questions: <a id="contact-link" href="#">contact the researcher</a>.</p>
+
+  <label class="check">
+    <input type="checkbox" id="consent-box">
+    <span>I've read the above and agree to take part.</span>
+  </label>
+
+  <button id="btn-consent" class="btn" disabled>Start the study</button>
+</section>
+
+<!-- ============ 3. instructions ============ -->
+<section id="screen-intro" class="screen prose" hidden>
+  <h1>How the task works</h1>
+  <p>Each task shows a map with <strong>six flood zones outlined in blue</strong>.
+     Every outlined zone looks the same on purpose, so you can't tell them apart by
+     colour or shape alone.</p>
+  <p>Each zone has details attached to it: how deep the flooding is, how many
+     buildings are exposed, and how much built-up land it covers. You read those
+     details, compare the outlined zones, and select the one the question asks for.</p>
+  <p>The question sits at the top of the screen the whole time. Work as
+     <strong>quickly and accurately</strong> as you can.</p>
+  <p>The two halves of the study reveal zone details differently. Each half starts
+     with one practice task that doesn't count.</p>
+  <button id="btn-intro" class="btn">Continue</button>
+</section>
+
+<!-- ============ 4. block intro (shown before each half) ============ -->
+<section id="screen-block" class="screen prose" hidden>
+  <h1 id="block-title">First half</h1>
+  <p id="block-how"></p>
+  <p>Next up is a practice task. It isn't scored.</p>
+  <button id="btn-block" class="btn">Start practice</button>
+</section>
+
+<!-- ============ 5. the trial itself ============ -->
+<section id="screen-trial" class="screen screen-full" hidden>
+  <header class="taskbar">
+    <p id="prompt" class="prompt"></p>
+    <div class="taskbar-meta">
+      <span id="progress" class="progress"></span>
+      <span id="practice-flag" class="flag" hidden>Practice</span>
+    </div>
+  </header>
+
+  <div id="stage" class="stage">
+    <div id="map"></div>
+    <!-- side panel: interface B only -->
+    <aside id="panel" class="panel" hidden>
+      <div id="panel-empty" class="panel-empty">
+        <p>Point at an outlined zone to see its details here.</p>
+      </div>
+      <div id="panel-body" class="panel-body" hidden>
+        <h2 id="panel-title" class="panel-title"></h2>
+        <dl class="fields" id="panel-fields"></dl>
+        <button id="panel-select" class="btn btn-select">Select this zone</button>
+      </div>
+    </aside>
+  </div>
+
+  <div id="feedback" class="feedback" hidden></div>
+</section>
+
+<!-- ============ 6. break between halves ============ -->
+<section id="screen-break" class="screen prose" hidden>
+  <h1>Halfway there</h1>
+  <p>That's the first half done. Take a moment if you need one.</p>
+  <p>The second half uses a different map layout, with the same kind of questions.</p>
+  <button id="btn-break" class="btn">Continue</button>
+</section>
+
+<!-- ============ 7. done ============ -->
+<section id="screen-done" class="screen prose" hidden>
+  <h1>Finished — thank you</h1>
+  <p>Your responses are saved. You can close this tab.</p>
+  <p id="done-detail" class="muted"></p>
+</section>
+
+<!-- ============ error ============ -->
+<section id="screen-error" class="screen prose" hidden>
+  <h1>Something didn't load</h1>
+  <p id="error-detail"></p>
+  <p>Refresh the page to try again. If it keeps happening, let the researcher know.</p>
+</section>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script type="module" src="js/study.js"></script>
+</body>
+</html>

@@ -1,0 +1,519 @@
+{
+ "name": "lisbon_hazard_trials",
+ "version": "1.0",
+ "meta": {
+  "design": "within-subjects crossover; A = click-to-reveal on-map popup, B = hover-to-reveal persistent side panel",
+  "blocks": "each participant completes 1 practice + 5 measured trials per interface (10 measured total)",
+  "candidate_pool": "medium-severity zones (measured), low-severity (practice); all candidates in a trial share one colour",
+  "candidates_per_trial": 6,
+  "start_zoom": 13,
+  "displayed_fields": [
+   "severity",
+   "depth_band",
+   "buildings_catchment",
+   "building_area_m2"
+  ],
+  "shortcut_guards": [
+   "target has >= 3 candidates larger (or smaller) by zone area",
+   "|corr(zone area, target attribute)| <= 0.6 within each candidate set",
+   "no ties on the target attribute",
+   "all candidates rendered in one uniform colour (severity cannot be read from fill)"
+  ],
+  "matching": "slot-matched across sets: same attribute, direction, difficulty tier and near-identical top1-top2 gap",
+  "rendering_note": "zones are thin bands (~160 m wide); add a transparent wide stroke (e.g. 12-15 px) to enlarge the hover/click hit area",
+  "input": "desktop pointer only; touch not supported",
+  "answer_key_note": "answer key ships client-side on a static site and is inspectable in principle"
+ },
+ "practice": [
+  {
+   "trial_id": "PRACTICE-1",
+   "set": "practice",
+   "slot": "p1",
+   "difficulty": "easy",
+   "logged": false,
+   "attribute": "buildings_catchment",
+   "direction": "max",
+   "prompt": "PRACTICE (not scored) \u2014 Among the outlined zones, click the one with the MOST exposed buildings.",
+   "candidates": [
+    "low-11",
+    "low-26",
+    "low-27",
+    "low-30",
+    "low-32",
+    "low-33"
+   ],
+   "target_zone_id": "low-32",
+   "target_value": 105.0,
+   "runner_up_value": 65.0,
+   "gap_pct": 38.1,
+   "candidates_larger_by_area_than_target": 5,
+   "area_attr_correlation": 0.2,
+   "view": {
+    "center": [
+     38.7709,
+     -9.09951
+    ],
+    "zoom": 13
+   },
+   "candidate_span_deg": [
+    0.0108,
+    0.0571
+   ]
+  },
+  {
+   "trial_id": "PRACTICE-2",
+   "set": "practice",
+   "slot": "p2",
+   "difficulty": "easy",
+   "logged": false,
+   "attribute": "buildings_catchment",
+   "direction": "max",
+   "prompt": "PRACTICE (not scored) \u2014 Among the outlined zones, click the one with the MOST exposed buildings.",
+   "candidates": [
+    "low-05",
+    "low-11",
+    "low-12",
+    "low-25",
+    "low-29",
+    "low-33"
+   ],
+   "target_zone_id": "low-29",
+   "target_value": 104.0,
+   "runner_up_value": 65.0,
+   "gap_pct": 37.5,
+   "candidates_larger_by_area_than_target": 4,
+   "area_attr_correlation": -0.3,
+   "view": {
+    "center": [
+     38.76653,
+     -9.09951
+    ],
+    "zoom": 13
+   },
+   "candidate_span_deg": [
+    0.0063,
+    0.0571
+   ]
+  }
+ ],
+ "sets": {
+  "S1": [
+   {
+    "trial_id": "S1-s1",
+    "set": "S1",
+    "slot": "s1",
+    "difficulty": "easy",
+    "logged": true,
+    "attribute": "buildings_catchment",
+    "direction": "max",
+    "prompt": "Among the outlined zones, click the one with the MOST exposed buildings.",
+    "candidates": [
+     "medium-11",
+     "medium-13",
+     "medium-16",
+     "medium-22",
+     "medium-24",
+     "medium-29"
+    ],
+    "target_zone_id": "medium-22",
+    "target_value": 921.0,
+    "runner_up_value": 623.0,
+    "gap_pct": 32.4,
+    "candidates_larger_by_area_than_target": 3,
+    "area_attr_correlation": 0.01,
+    "view": {
+     "center": [
+      38.67987,
+      -9.12479
+     ],
+     "zoom": 13
+    },
+    "candidate_span_deg": [
+     0.0837,
+     0.0542
+    ]
+   },
+   {
+    "trial_id": "S1-s2",
+    "set": "S1",
+    "slot": "s2",
+    "difficulty": "moderate",
+    "logged": true,
+    "attribute": "buildings_catchment",
+    "direction": "max",
+    "prompt": "Among the outlined zones, click the one with the MOST exposed buildings.",
+    "candidates": [
+     "medium-07",
+     "medium-13",
+     "medium-19",
+     "medium-23",
+     "medium-25",
+     "medium-29"
+    ],
+    "target_zone_id": "medium-23",
+    "target_value": 133.0,
+    "runner_up_value": 103.0,
+    "gap_pct": 22.6,
+    "candidates_larger_by_area_than_target": 3,
+    "area_attr_correlation": -0.52,
+    "view": {
+     "center": [
+      38.67965,
+      -9.15568
+     ],
+     "zoom": 13
+    },
+    "candidate_span_deg": [
+     0.0684,
+     0.0534
+    ]
+   },
+   {
+    "trial_id": "S1-s3",
+    "set": "S1",
+    "slot": "s3",
+    "difficulty": "moderate",
+    "logged": true,
+    "attribute": "buildings_catchment",
+    "direction": "min",
+    "prompt": "Among the outlined zones, click the one with the FEWEST exposed buildings.",
+    "candidates": [
+     "medium-06",
+     "medium-07",
+     "medium-17",
+     "medium-24",
+     "medium-26",
+     "medium-29"
+    ],
+    "target_zone_id": "medium-17",
+    "target_value": 12.0,
+    "runner_up_value": 15.0,
+    "gap_pct": 20.0,
+    "candidates_larger_by_area_than_target": 2,
+    "area_attr_correlation": 0.54,
+    "view": {
+     "center": [
+      38.66624,
+      -9.11255
+     ],
+     "zoom": 13
+    },
+    "candidate_span_deg": [
+     0.0783,
+     0.0542
+    ]
+   },
+   {
+    "trial_id": "S1-s4",
+    "set": "S1",
+    "slot": "s4",
+    "difficulty": "easy",
+    "logged": true,
+    "attribute": "building_area_m2",
+    "direction": "max",
+    "prompt": "Among the outlined zones, click the one with the LARGEST built-up area.",
+    "candidates": [
+     "medium-07",
+     "medium-14",
+     "medium-15",
+     "medium-16",
+     "medium-19",
+     "medium-29"
+    ],
+    "target_zone_id": "medium-16",
+    "target_value": 38295.7,
+    "runner_up_value": 24313.9,
+    "gap_pct": 36.5,
+    "candidates_larger_by_area_than_target": 3,
+    "area_attr_correlation": -0.49,
+    "view": {
+     "center": [
+      38.6941,
+      -9.15735
+     ],
+     "zoom": 13
+    },
+    "candidate_span_deg": [
+     0.0755,
+     0.0534
+    ]
+   },
+   {
+    "trial_id": "S1-s5",
+    "set": "S1",
+    "slot": "s5",
+    "difficulty": "hard",
+    "logged": true,
+    "attribute": "buildings_catchment",
+    "direction": "max",
+    "prompt": "Among the outlined zones, click the one with the MOST exposed buildings.",
+    "candidates": [
+     "medium-09",
+     "medium-13",
+     "medium-14",
+     "medium-15",
+     "medium-18",
+     "medium-29"
+    ],
+    "target_zone_id": "medium-15",
+    "target_value": 202.0,
+    "runner_up_value": 194.0,
+    "gap_pct": 4.0,
+    "candidates_larger_by_area_than_target": 3,
+    "area_attr_correlation": 0.16,
+    "view": {
+     "center": [
+      38.6916,
+      -9.16821
+     ],
+     "zoom": 13
+    },
+    "candidate_span_deg": [
+     0.0743,
+     0.0404
+    ]
+   }
+  ],
+  "S2": [
+   {
+    "trial_id": "S2-s1",
+    "set": "S2",
+    "slot": "s1",
+    "difficulty": "easy",
+    "logged": true,
+    "attribute": "buildings_catchment",
+    "direction": "max",
+    "prompt": "Among the outlined zones, click the one with the MOST exposed buildings.",
+    "candidates": [
+     "medium-07",
+     "medium-13",
+     "medium-17",
+     "medium-18",
+     "medium-25",
+     "medium-26"
+    ],
+    "target_zone_id": "medium-18",
+    "target_value": 119.0,
+    "runner_up_value": 80.0,
+    "gap_pct": 32.8,
+    "candidates_larger_by_area_than_target": 3,
+    "area_attr_correlation": -0.27,
+    "view": {
+     "center": [
+      38.665,
+      -9.13567
+     ],
+     "zoom": 13
+    },
+    "candidate_span_deg": [
+     0.0754,
+     0.0288
+    ]
+   },
+   {
+    "trial_id": "S2-s2",
+    "set": "S2",
+    "slot": "s2",
+    "difficulty": "moderate",
+    "logged": true,
+    "attribute": "buildings_catchment",
+    "direction": "max",
+    "prompt": "Among the outlined zones, click the one with the MOST exposed buildings.",
+    "candidates": [
+     "medium-07",
+     "medium-13",
+     "medium-17",
+     "medium-25",
+     "medium-26",
+     "medium-29"
+    ],
+    "target_zone_id": "medium-29",
+    "target_value": 103.0,
+    "runner_up_value": 80.0,
+    "gap_pct": 22.3,
+    "candidates_larger_by_area_than_target": 5,
+    "area_attr_correlation": -0.41,
+    "view": {
+     "center": [
+      38.66909,
+      -9.13303
+     ],
+     "zoom": 13
+    },
+    "candidate_span_deg": [
+     0.0613,
+     0.0534
+    ]
+   },
+   {
+    "trial_id": "S2-s3",
+    "set": "S2",
+    "slot": "s3",
+    "difficulty": "moderate",
+    "logged": true,
+    "attribute": "buildings_catchment",
+    "direction": "min",
+    "prompt": "Among the outlined zones, click the one with the FEWEST exposed buildings.",
+    "candidates": [
+     "medium-08",
+     "medium-09",
+     "medium-13",
+     "medium-16",
+     "medium-18",
+     "medium-19"
+    ],
+    "target_zone_id": "medium-13",
+    "target_value": 60.0,
+    "runner_up_value": 75.0,
+    "gap_pct": 20.0,
+    "candidates_larger_by_area_than_target": 2,
+    "area_attr_correlation": 0.56,
+    "view": {
+     "center": [
+      38.69293,
+      -9.16264
+     ],
+     "zoom": 13
+    },
+    "candidate_span_deg": [
+     0.0882,
+     0.0471
+    ]
+   },
+   {
+    "trial_id": "S2-s4",
+    "set": "S2",
+    "slot": "s4",
+    "difficulty": "easy",
+    "logged": true,
+    "attribute": "building_area_m2",
+    "direction": "max",
+    "prompt": "Among the outlined zones, click the one with the LARGEST built-up area.",
+    "candidates": [
+     "medium-14",
+     "medium-15",
+     "medium-18",
+     "medium-19",
+     "medium-26",
+     "medium-27"
+    ],
+    "target_zone_id": "medium-19",
+    "target_value": 24313.9,
+    "runner_up_value": 15877.8,
+    "gap_pct": 34.7,
+    "candidates_larger_by_area_than_target": 3,
+    "area_attr_correlation": 0.52,
+    "view": {
+     "center": [
+      38.69237,
+      -9.17028
+     ],
+     "zoom": 13
+    },
+    "candidate_span_deg": [
+     0.0633,
+     0.0325
+    ]
+   },
+   {
+    "trial_id": "S2-s5",
+    "set": "S2",
+    "slot": "s5",
+    "difficulty": "hard",
+    "logged": true,
+    "attribute": "buildings_catchment",
+    "direction": "max",
+    "prompt": "Among the outlined zones, click the one with the MOST exposed buildings.",
+    "candidates": [
+     "medium-07",
+     "medium-13",
+     "medium-19",
+     "medium-25",
+     "medium-26",
+     "medium-27"
+    ],
+    "target_zone_id": "medium-27",
+    "target_value": 83.0,
+    "runner_up_value": 80.0,
+    "gap_pct": 3.6,
+    "candidates_larger_by_area_than_target": 5,
+    "area_attr_correlation": -0.49,
+    "view": {
+     "center": [
+      38.67465,
+      -9.1538
+     ],
+     "zoom": 13
+    },
+    "candidate_span_deg": [
+     0.0605,
+     0.0459
+    ]
+   }
+  ]
+ },
+ "assignment": {
+  "groups": [
+   {
+    "group": "G1",
+    "block1": {
+     "interface": "A",
+     "set": "S1"
+    },
+    "block2": {
+     "interface": "B",
+     "set": "S2"
+    }
+   },
+   {
+    "group": "G2",
+    "block1": {
+     "interface": "B",
+     "set": "S1"
+    },
+    "block2": {
+     "interface": "A",
+     "set": "S2"
+    }
+   },
+   {
+    "group": "G3",
+    "block1": {
+     "interface": "A",
+     "set": "S2"
+    },
+    "block2": {
+     "interface": "B",
+     "set": "S1"
+    }
+   },
+   {
+    "group": "G4",
+    "block1": {
+     "interface": "B",
+     "set": "S2"
+    },
+    "block2": {
+     "interface": "A",
+     "set": "S1"
+    }
+   }
+  ],
+  "method": "round-robin or random at session start",
+  "counterbalances": [
+   "interface order (A-first vs B-first)",
+   "set-to-interface pairing"
+  ]
+ },
+ "metrics": {
+  "primary": "time to first correct click",
+  "secondary": [
+   "zones inspected before answering",
+   "revisits to already-inspected zones",
+   "mouse path length",
+   "zoom/pan count",
+   "error rate",
+   "time to first inspection"
+  ]
+ }
+}

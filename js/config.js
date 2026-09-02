@@ -1,0 +1,34 @@
+/* Study configuration.
+ *
+ * The anon key is public by design on a static site — Row Level Security
+ * (insert-only) is what protects the data, not secrecy of this string.
+ * See supabase_migration.sql.
+ */
+export const CONFIG = {
+  SUPABASE_URL: 'https://YOUR-PROJECT-REF.supabase.co',
+  SUPABASE_ANON_KEY: 'YOUR-ANON-KEY',
+
+  CONTACT: 'mailto:you@example.com',
+
+  // Versions are written to every session row, so a mid-study change to the
+  // trials or the app can be identified and filtered during analysis.
+  APP_VERSION: '1.0',
+  TRIALS_VERSION: '1.0',
+
+  MOVE_HZ: 10,              // mouse sampling rate
+  TRIAL_TIMEOUT_MS: 120000, // 2 minutes, then the trial is recorded as timed out
+  PRACTICE_FEEDBACK_MS: 2600,
+
+  DATA: {
+    trials: 'data/trials.json',
+    zones: 'data/zones.geojson',
+  },
+
+  // Muted basemap so the uniform candidate colour stays dominant.
+  TILES: {
+    url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    maxZoom: 19,
+  },
+};

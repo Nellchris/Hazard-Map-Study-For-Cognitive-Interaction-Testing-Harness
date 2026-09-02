@@ -1,0 +1,219 @@
+/* =====================================================================
+   Study instrument styling.
+
+   Deliberately plain. Both interfaces share this ONE stylesheet; the only
+   differences between A and B are (a) whether the side panel exists and
+   (b) whether details reveal on click or on hover. Any other visual
+   difference would confound the comparison.
+
+   Two choices that serve the task rather than the look:
+   - tabular numerals, so participants compare digits in aligned columns
+   - a system font stack, so no webfont fetch adds variable load latency
+     across participants on different continents
+   ===================================================================== */
+
+:root {
+  --ink:        #16191d;
+  --ink-soft:   #5c646e;
+  --line:       #d6dae0;
+  --surface:    #ffffff;
+  --surface-2:  #f4f6f8;
+
+  /* Candidate zones use ONE colour for every zone in a trial. Blue is
+     chosen precisely because it is not a hazard-severity colour, so it
+     reads as "under review", not "more/less dangerous". */
+  --candidate:      #2563a8;
+  --candidate-deep: #16406f;
+  --context:        #97a1ac;
+
+  --focus: #b45309;
+  --space: 1rem;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  color: var(--ink);
+  background: var(--surface);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+               "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+/* ---------- screens ---------- */
+.screen { display: none; }
+.screen:not([hidden]) { display: block; }
+
+.prose {
+  max-width: 62ch;         /* keeps line length readable */
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+}
+
+.prose h1 {
+  font-size: 1.6rem;
+  line-height: 1.25;
+  font-weight: 600;
+  margin: 0 0 1rem;
+}
+
+.prose h2 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 2rem 0 .4rem;
+}
+
+.prose p, .prose li { color: var(--ink); }
+.prose ul { padding-left: 1.2rem; }
+.prose li { margin-bottom: .3rem; }
+.muted { color: var(--ink-soft); }
+
+/* ---------- controls ---------- */
+.btn {
+  appearance: none;
+  border: 1px solid var(--candidate-deep);
+  background: var(--candidate);
+  color: #fff;
+  font: inherit;
+  font-weight: 500;
+  padding: .6rem 1.25rem;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-top: 1.75rem;
+}
+.btn:hover:not(:disabled) { background: var(--candidate-deep); }
+.btn:disabled { background: var(--context); border-color: var(--context); cursor: not-allowed; }
+.btn:focus-visible, .check input:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.check {
+  display: flex;
+  gap: .6rem;
+  align-items: flex-start;
+  margin-top: 2rem;
+  cursor: pointer;
+}
+.check input { margin-top: .35rem; width: 1.05rem; height: 1.05rem; }
+
+/* ---------- trial layout ---------- */
+.screen-full:not([hidden]) {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.taskbar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: .85rem 1.25rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-2);
+}
+
+.prompt {
+  margin: 0;
+  font-size: 1.02rem;
+  font-weight: 500;
+}
+
+.taskbar-meta {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  flex: 0 0 auto;
+}
+
+.progress {
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+  font-size: .9rem;
+  white-space: nowrap;
+}
+
+.flag {
+  font-size: .8rem;
+  color: var(--focus);
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  padding: .1rem .45rem;
+}
+
+.stage {
+  flex: 1 1 auto;
+  display: flex;
+  min-height: 0;
+}
+
+#map {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  background: var(--surface-2);
+}
+
+/* ---------- side panel (interface B only) ---------- */
+.panel {
+  flex: 0 0 320px;
+  border-left: 1px solid var(--line);
+  padding: 1.25rem;
+  overflow-y: auto;
+  background: var(--surface);
+}
+.panel[hidden] { display: none; }
+
+.panel-empty { color: var(--ink-soft); }
+
+.panel-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0 0 .9rem;
+}
+
+/* ---------- field list: identical markup in popup and panel ---------- */
+.fields { margin: 0; }
+.fields div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .4rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.fields dt { color: var(--ink-soft); }
+.fields dd {
+  margin: 0;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;   /* aligned digits aid comparison */
+}
+
+.btn-select { width: 100%; margin-top: 1.25rem; }
+
+/* ---------- popup (interface A only) ---------- */
+.leaflet-popup-content { margin: .8rem .9rem; min-width: 220px; }
+.leaflet-popup-content .panel-title { font-size: 1rem; }
+.leaflet-popup-content .btn-select { margin-top: .9rem; }
+
+/* Enlarges the hover/click target for thin zone bands. The stroke is
+   invisible but pointer-events:all keeps it hit-testable. */
+.zone-hit { pointer-events: all; cursor: pointer; }
+
+/* ---------- feedback (practice trials only) ---------- */
+.feedback {
+  flex: 0 0 auto;
+  padding: .8rem 1.25rem;
+  border-top: 1px solid var(--line);
+  background: var(--surface-2);
+}
+.feedback[hidden] { display: none; }
+.feedback strong { font-weight: 600; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}

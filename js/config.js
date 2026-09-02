@@ -5,8 +5,8 @@
  * See supabase_migration.sql.
  */
 export const CONFIG = {
-  SUPABASE_URL: 'https://YOUR-PROJECT-REF.supabase.co',
-  SUPABASE_ANON_KEY: 'YOUR-ANON-KEY',
+  SUPABASE_URL: 'https://koyfbydopxuyncgswzxj.supabase.co',
+  SUPABASE_ANON_KEY: 'sb_publishable_n-2LCXKqV0jYMyTfifIyMg_8hQmup5i',
 
   CONTACT: 'mailto:you@example.com',
 

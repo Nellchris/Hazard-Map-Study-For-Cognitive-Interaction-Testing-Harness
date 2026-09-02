@@ -195,6 +195,10 @@ create policy anon_read_heartbeat on public.heartbeat
 revoke all on public.sessions, public.trials, public.events, public.traces, public.heartbeat from anon;
 grant insert on public.sessions, public.trials, public.events, public.traces to anon;
 grant update (completed, completed_at, abandoned_reason) on public.sessions to anon;
+-- Required so PostgREST can locate the row in UPDATE ... WHERE session_id = ...
+-- PostgreSQL needs SELECT privilege on any column named in a WHERE clause.
+-- Safe: there is no SELECT policy, so anon still reads zero rows.
+grant select (session_id) on public.sessions to anon;
 grant select on public.heartbeat to anon;
 grant usage, select on all sequences in schema public to anon;
 

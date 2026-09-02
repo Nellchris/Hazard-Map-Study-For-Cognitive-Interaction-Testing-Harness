@@ -199,7 +199,9 @@ html, body {
 .leaflet-popup-content { margin: .8rem .9rem; min-width: 220px; }
 .leaflet-popup-content .panel-title { font-size: 1rem; }
 .leaflet-popup-content .btn-select { margin-top: .9rem; }
-
+.leaflet-tile-pane {
+  filter: grayscale(1) contrast(0.82) brightness(1.09);
+}
 /* Enlarges the hover/click target for thin zone bands. The stroke is
    invisible but pointer-events:all keeps it hit-testable. */
 .zone-hit { pointer-events: all; cursor: pointer; }

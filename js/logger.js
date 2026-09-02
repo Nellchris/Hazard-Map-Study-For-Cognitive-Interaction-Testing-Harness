@@ -372,33 +372,45 @@ export class Logger {
 
   /* ---------------- completion ---------------- */
 
-  /** Mark the session complete. RLS allows this transition exactly once. */
+  /**
+   * Mark the session complete via a SECURITY DEFINER function.
+   *
+   * This deliberately does NOT use PATCH on the table. A direct update has to
+   * satisfy RLS, column grants, and PostgREST's need for SELECT privilege on
+   * the column in the WHERE clause — three ways to fail silently. The function
+   * runs with the owner's rights and returns true only if a row actually
+   * changed, so we can tell success from a no-op.
+   */
   async completeSession({ abandonedReason = null } = {}) {
-    if (!this.session) return;
-    const url = `${this.url}/rest/v1/sessions?session_id=eq.${this.session.session_id}`;
+    if (!this.session) return false;
     try {
-      const res = await fetch(url, {
-        method: 'PATCH',
+      const res = await fetch(`${this.url}/rest/v1/rpc/complete_session`, {
+        method: 'POST',
         headers: this._headers(),
         body: JSON.stringify({
-          completed: abandonedReason === null,
-          completed_at: new Date().toISOString(),
-          abandoned_reason: abandonedReason,
+          p_session_id: this.session.session_id,
+          p_reason: abandonedReason,
         }),
       });
+      const body = await res.text().catch(() => '');
       if (!res.ok) {
-        // Loud on purpose: a silently unmarked session is excluded from the
-        // analysis views, so this must never fail quietly again.
-        const detail = await res.text().catch(() => '');
         console.warn(
           `[logger] SESSION NOT MARKED COMPLETE (HTTP ${res.status}). ` +
-          `This session will be filtered out of the analysis. ${detail}`
+          `It will be excluded from the analysis views. ${body}`
         );
+        await this.retryPending();
+        return false;
       }
+      if (body.trim() === 'false') {
+        console.warn('[logger] session was already marked complete — no change made.');
+      }
+      await this.retryPending();
+      return true;
     } catch (e) {
       console.warn('[logger] completeSession network error:', e);
+      await this.retryPending();
+      return false;
     }
-    await this.retryPending();
   }
 }
 

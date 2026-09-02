@@ -202,6 +202,38 @@ grant select (session_id) on public.sessions to anon;
 grant select on public.heartbeat to anon;
 grant usage, select on all sequences in schema public to anon;
 
+-- ---------------------------------------------------------------------
+-- Session completion via SECURITY DEFINER function.
+-- A direct UPDATE from anon must satisfy RLS, column grants AND PostgREST's
+-- need for SELECT privilege on the WHERE column. This runs as the owner and
+-- reports whether a row actually changed.
+-- ---------------------------------------------------------------------
+create or replace function public.complete_session(
+  p_session_id uuid,
+  p_reason     text default null
+)
+returns boolean
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  n integer;
+begin
+  update public.sessions
+     set completed        = (p_reason is null),
+         completed_at     = now(),
+         abandoned_reason = p_reason
+   where session_id = p_session_id
+     and completed  = false;
+  get diagnostics n = row_count;
+  return n > 0;
+end;
+$$;
+
+revoke all on function public.complete_session(uuid, text) from public;
+grant execute on function public.complete_session(uuid, text) to anon;
+
 -- =====================================================================
 -- ANALYSIS VIEWS  (owner / service_role only — anon has no SELECT)
 -- =====================================================================

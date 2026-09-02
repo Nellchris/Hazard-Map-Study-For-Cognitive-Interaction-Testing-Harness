@@ -386,9 +386,17 @@ export class Logger {
           abandoned_reason: abandonedReason,
         }),
       });
-      if (!res.ok) this._log('completeSession failed', res.status);
+      if (!res.ok) {
+        // Loud on purpose: a silently unmarked session is excluded from the
+        // analysis views, so this must never fail quietly again.
+        const detail = await res.text().catch(() => '');
+        console.warn(
+          `[logger] SESSION NOT MARKED COMPLETE (HTTP ${res.status}). ` +
+          `This session will be filtered out of the analysis. ${detail}`
+        );
+      }
     } catch (e) {
-      this._log('completeSession error', e);
+      console.warn('[logger] completeSession network error:', e);
     }
     await this.retryPending();
   }

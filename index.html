@@ -111,11 +111,33 @@
   <button id="btn-break" class="btn">Continue</button>
 </section>
 
-<!-- ============ 7. done ============ -->
-<section id="screen-done" class="screen prose" hidden>
-  <h1>Finished — thank you</h1>
-  <p>Your responses are saved. You can close this tab.</p>
-  <p id="done-detail" class="muted"></p>
+<!-- ============ 7. results ============ -->
+<section id="screen-done" class="screen results" hidden>
+  <div class="results-head">
+    <h1>Finished — thank you</h1>
+    <p>Your responses are saved. Here's how you did, and where your cursor went.</p>
+    <div id="score-summary"></div>
+  </div>
+
+  <div id="trial-table" class="results-table-wrap"></div>
+
+  <div class="review">
+    <div class="review-bar">
+      <p id="review-prompt" class="prompt"></p>
+      <div class="review-controls">
+        <button id="btn-prev" class="btn btn-quiet">Previous</button>
+        <button id="btn-next" class="btn btn-quiet">Next</button>
+        <button id="btn-heat" class="btn" aria-pressed="true">Hide interaction heatmap</button>
+      </div>
+    </div>
+    <div id="review-map"></div>
+    <p class="legend muted small">
+      Green outline is the correct zone; red is your choice when it differed.
+      White dots are your clicks. The colour cloud shows where your cursor spent
+      time — a rough proxy for where you were looking, not a measurement of gaze.
+      Select any row above to review that task.
+    </p>
+  </div>
 </section>
 
 <!-- ============ error ============ -->
@@ -126,6 +148,7 @@
 </section>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
 <script type="module" src="js/study.js"></script>
 </body>
 </html>

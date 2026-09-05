@@ -57,6 +57,10 @@ export class Logger {
     this.trial = null;
     this._lastMoveAt = -Infinity;
 
+    // Session-local archive. The results screen replays from this, so it never
+    // needs to read from the database — RLS stays insert-only and untouched.
+    this.archive = [];
+
     this._installUnloadHandlers();
     this.retryPending();          // flush anything left over from a past visit
   }
@@ -358,7 +362,16 @@ export class Logger {
     this.logEvent('trial_end', { zoneId: responseZoneId });
 
     const payload = this._buildTrialPayload({ responseZoneId, correct, timedOut });
+    const spec = this.trial.spec;
     this.trial = null;
+
+    // Keep a local copy for the participant's own results screen.
+    this.archive.push({
+      spec,
+      trial: payload.trial,
+      events: payload.events,
+      trace: payload.trace,
+    });
 
     // order matters: trials row references the session, events/traces are independent
     await this._post('trials', [payload.trial]);

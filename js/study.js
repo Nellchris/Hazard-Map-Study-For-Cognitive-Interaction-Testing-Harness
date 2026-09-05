@@ -11,6 +11,7 @@
 import { CONFIG } from './config.js';
 import { Logger, attachLeafletTelemetry } from './logger.js';
 import { MapView, detailsHtml, fieldsHtml } from './mapview.js';
+import { renderResults } from './results.js';
 
 const $ = (id) => document.getElementById(id);
 
@@ -238,8 +239,18 @@ async function endTrial(responseZoneId, timedOut) {
 
 async function finish() {
   await state.logger.completeSession();
-  $('done-detail').textContent = `Session ${state.plan.sessionId.slice(0, 8)} · group ${state.plan.groupCode}`;
   show('screen-done');
+  try {
+    renderResults({
+      archive: state.logger.archive,
+      zones: state.view.zones,
+      plan: state.plan,
+    });
+  } catch (err) {
+    // The results screen is a courtesy; never let it hide the fact that the
+    // session itself completed and uploaded successfully.
+    console.warn('[results] could not render:', err);
+  }
 }
 
 boot().catch(err => fail(err.message));
